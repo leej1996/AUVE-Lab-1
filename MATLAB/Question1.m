@@ -1,122 +1,109 @@
 %% Main function for the questions of the first part
 function [] = Question1()
-  
-  % Solves Question 1.1
-  Question11();
-  
-  % Solves Questions 1.2
-  Question12();
-  
+
+% Solves Question 1.1
+Question11();
+
+% Solves Questions 1.2
+Question12();
+
 end
 
-%% Solves Questions 1.1
+%% Solves Question 1.1
 function [] = Question11()
-  
-  % Parameters
-  m = 0.95; % means
-  nb = 16; % number of bars
-  p = 0.5; % prob
-  sigma = sqrt(1 - (m^2)); % variance
-  
-  % For N=100 and N=4000 realizations
-  for N = [100 4000]
+
+% Parameters
+m = 0.95; % mean
+p = 0.5; % prob
+sigma = sqrt(1 - (m^2)); % sigma
+
+% For N=100 and N=4000 realizations
+for N = [100 4000]
     
-    % Distributions
-    X_n = randn(N,1); % X normally distributed
-    X_u = 2*sqrt(3)*(rand(N,1)-0.5); % X uniformly distributed
-    
-    % X driven by a Gaussian mixture
-    X_s = randn(N,1)*sqrt(1-m*m)+m; 
-    k = find(rand(N,1)>0.5);
-    X_s(k) = X_s(k) -2*m;
-    
-    % Plot normal distribution
-    [n,b] = hist(X_n,nb);
+    %% X normally distributed
+    Xn= randn(N,1);
+    Yn=pdf('Normal',-5:0.01:5,0,1);
     figure;
+    histogram(Xn,'Normalization','pdf');
     hold on;
-    bar(b,n/(b(2)-b(1))/sum(n),1);
+    plot(-5:0.01:5,Yn);
     title(['N = ',num2str(N),' Normal']);
-    x = -5:0.01:5;
-    pdf_normal = 1/sqrt(2*pi)*exp(-0.5*x.^2);
-    plot(x,pdf_normal);
-    mean_normal = mean(X_n);
-    std_normal = std(X_n);
-    fprintf('The mean and standard deviation of the Normal R.V. at N = %d is: %f, %f\n',N, mean_normal, std_normal);
+    meann=mean(Xn);
+    stdn=std(Xn);
+    disp('***** Normal *****');
+    disp(['Mean: ',num2str(meann),' Std: ',num2str(stdn)]);
     
     figure;
-    plot(1:N,X_n,'*');
+    plot(1:N,Xn,'*');
     title(['Normal Independent Random Signal, N = ',num2str(N)]);
     
-    %Plot uniform distribution
-    [n,b] = hist(X_u,nb);
+    %% X uniformly ditributed
+    Xu=2*sqrt(3)*(rand(N,1)-0.5);
+    Yu=pdf('Uniform',-2:0.01:2,-sqrt(3),sqrt(3));
     figure;
+    histogram(Xu,'Normalization','pdf');
     hold on;
-    bar(b,n/(b(2)-b(1))/sum(n),1);
+    plot(-2:0.01:2,Yu);
     title(['N = ',num2str(N),' Uniform']);
-    x = -2:0.01:2;
-    pdf_uniform = (1/(2*sqrt(3)))*(x >= -sqrt(3) & x <= sqrt(3));
-    plot(x,pdf_uniform);
-    mean_uniform = mean(X_u);
-    std_uniform = std(X_u);
-    fprintf('The mean and standard deviation of the Uniform R.V. at N = %d is: %f, %f\n',N, mean_uniform, std_uniform);
+    meanu=mean(Xu);
+    stdu=std(Xu);
+    disp('***** Uniform *****');
+    disp(['Mean: ',num2str(meanu),' Std: ',num2str(stdu)]);
     
     figure;
-    plot(1:N,X_u,'*');
+    plot(1:N,Xu,'*');
     title(['Uniform Independent Random Signal, N = ',num2str(N)]);
     
-    %Plot Symmetric Gaussian Mixture
-    [n,b] = hist(X_s,nb);
+    %% X driven by a Gaussian mixture
+    Xs = randn(N,1)*sqrt(1-m*m)+m;
+    k = find(rand(N,1)>0.5);
+    Xs(k) = Xs(k) -2*m;
+    Ys= p*pdf('Normal',-5:0.01:5,m,sigma)+(1-p)*pdf('Normal',-5:0.01:5,-m,sigma);
     figure;
+    histogram(Xs,'Normalization','pdf');
     hold on;
-    bar(b,n/(b(2)-b(1))/sum(n),1);
+    plot(-5:0.01:5,Ys);
     title(['N = ',num2str(N),' Symmetric']);
-    x = -5:0.01:5;
-    pdf1 = p*(1/sqrt(2*pi)/sigma*exp(-0.5*((x-m)/sigma).^2));
-    pdf2 = (1-p)*(1/sqrt(2*pi)/sigma*exp(-0.5*((x+m)/sigma).^2));
-    pdf_symmetric = pdf1 + pdf2;
-    plot(x,pdf_symmetric);
-    mean_symmetric = mean(X_s);
-    std_symmetric = std(X_s);
-    fprintf('The mean and standard deviation of the Uniform R.V. at N = %d is: %f, %f\n',N, mean_symmetric, std_symmetric);
+    means=mean(Xu);
+    stds=std(Xu);
+    disp('***** Symmetric *****');
+    disp(['Mean: ',num2str(means),' Std: ',num2str(stds)]);
     
     figure;
-    plot(1:N,X_s,'*');
+    plot(1:N,Xs,'*');
     title(['Symmetric Independent Random Signal, N = ',num2str(N)]);
-  end
-  
-  
-  
+    
 end
 
+end
 
+%% Solves Question 1.2
 function [] = Question12()
-  
-  
-  %% Question 1.2
-  sigma1 = 2;
-  sigma2 = 5;
-  p = 0.9;
-  
-  C = [sigma1^2, sigma1*sigma2*p;sigma1*sigma2*p, sigma2^2];
-  
-  x = chol(C,'lower')*randn(2,200);
-  
-  m = mean(x,2);
-  covariance = cov(x');
-  disp("The mean is: ");
-  disp(m);
-  disp("The covariance is: ");
-  disp(covariance);
-  
-  figure;
-  hold on;
-  plot(x(1,:), x(2,:), '*');
-  
-  P0 = 0.91;
-  theta = linspace(0,2*pi,100);
-  X = sqrt(-2*log(1-P0))*chol(C,'lower')*[cos(theta);sin(theta)] + m*ones(1,length(theta));
-  
-  plot(X(1,:),X(2,:));
-  title('Joint Distribution with 91% Confidence Ellipse');
-  
-  end
+
+% Parameters
+sigma1 = 2; % Sigma X1
+sigma2 = 5; % Sigma X2
+p = 0.9; % correlation coefficient
+
+C = [sigma1^2, sigma1*sigma2*p;sigma1*sigma2*p, sigma2^2]; % Covariance matrix
+Xj = chol(C,'lower')*randn(2,200);
+
+meanj= mean(Xj,2);
+covj= cov(Xj');
+
+P0 = 0.91;
+theta = linspace(0,2*pi,100);
+X = sqrt(-2*log(1-P0))*chol(C,'lower')*[cos(theta);sin(theta)] + meanj*ones(1,length(theta));
+
+disp('***** Joint *****');
+disp(['Mean: ',num2str(meanj')]);
+disp('Covariance:');
+disp(covj);
+
+figure;
+plot(Xj(1,:), Xj(2,:), '*');
+hold on;
+plot(X(1,:),X(2,:));
+title('Joint Distribution with 91% Confidence Ellipse');
+
+end
