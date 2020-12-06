@@ -46,7 +46,7 @@ title('omega');
 suptitle('Perfect: Stat KF with Small variance (q)');
 
 % Big q -> we dont trust much our model
-q = 0.2;
+q = 0.005;
 
 xe = kal(y,u,G,Ta,Ts,L,x1_0,P1_0,q);
 xe_s = stat_kal(y,u,G,Ta,Ts,L,x1_0,q);
@@ -93,7 +93,7 @@ title('omega');
 suptitle('Rough: Stat KF with Small variance (q)');
 
 % Big q -> we dont trust much our model
-q = 0.2;
+q = 0.005;
 
 xe = kal(y,u,G,Tf,Ts,L,x1_0,P1_0,q);
 xe_s = stat_kal(y,u,G,Tf,Ts,L,x1_0,q);
