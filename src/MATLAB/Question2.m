@@ -35,7 +35,7 @@ figure(1), subplot(212), hold off
 plot(x(:,2)), hold on, plot(xe(:,2)); legend('Ground truth','Estimation');
 title('omega');
 
-suptitle('Perfect: KF with Small variance (q)');
+sgtitle('Perfect: KF with Small variance (q)');
 
 figure(2), subplot(211), hold off
 plot(x(:,1)), hold on,plot(xe_s(:,1)), plot(y); legend('Ground truth','Estimation','Measurments');
@@ -43,7 +43,7 @@ title('theta');
 figure(2), subplot(212), hold off
 plot(x(:,2)), hold on, plot(xe_s(:,2)); legend('Ground truth','Estimation');
 title('omega');
-suptitle('Perfect: Stat KF with Small variance (q)');
+sgtitle('Perfect: Stat KF with Small variance (q)');
 
 % Big q -> we dont trust much our model
 q = 0.005;
@@ -57,7 +57,7 @@ title('theta');
 figure(3), subplot(212), hold off
 plot(x(:,2)), hold on, plot(xe(:,2)); legend('Ground truth','Estimation');
 title('omega');
-suptitle('Perfect: KF with Big variance (q)');
+sgtitle('Perfect: KF with Big variance (q)');
 
 figure(4), subplot(211), hold off
 plot(x(:,1)), hold on,plot(xe_s(:,1)), plot(y); legend('Ground truth','Estimation','Measurments');
@@ -65,7 +65,7 @@ title('theta');
 figure(4), subplot(212), hold off
 plot(x(:,2)), hold on, plot(xe_s(:,2)); legend('Ground truth','Estimation');
 title('omega');
-suptitle('Perfect: Stat KF with Big variance (q)');
+sgtitle('Perfect: Stat KF with Big variance (q)');
 
 %% When the model of the system is rough 
 % Small q - > we trust our model
@@ -82,7 +82,7 @@ title('theta');
 figure(5), subplot(212), hold off
 plot(x(:,2)), hold on, plot(xe(:,2)); legend('Ground truth','Estimation');
 title('omega');
-suptitle('Rough: KF with Small variance (q)');
+sgtitle('Rough: KF with Small variance (q)');
 
 figure(6), subplot(211), hold off
 plot(x(:,1)), hold on,plot(xe_s(:,1)), plot(y); legend('Ground truth','Estimation','Measurments');
@@ -90,7 +90,7 @@ title('theta');
 figure(6), subplot(212), hold off
 plot(x(:,2)), hold on, plot(xe_s(:,2)); legend('Ground truth','Estimation');
 title('omega');
-suptitle('Rough: Stat KF with Small variance (q)');
+sgtitle('Rough: Stat KF with Small variance (q)');
 
 % Big q -> we dont trust much our model
 q = 0.005;
@@ -104,7 +104,7 @@ title('theta');
 figure(7), subplot(212), hold off
 plot(x(:,2)), hold on, plot(xe(:,2)); legend('Ground truth','Estimation');
 title('omega');
-suptitle('Rough: KF with Big variance (q)');
+sgtitle('Rough: KF with Big variance (q)');
 
 figure(8), subplot(211), hold off
 plot(x(:,1)), hold on,plot(xe_s(:,1)), plot(y); legend('Ground truth','Estimation','Measurments');
@@ -112,6 +112,6 @@ title('theta');
 figure(8), subplot(212), hold off
 plot(x(:,2)), hold on, plot(xe_s(:,2));  legend('Ground truth','Estimation');
 title('omega');
-suptitle('Rough: Stat KF with Big variance (q)');
+sgtitle('Rough: Stat KF with Big variance (q)');
 
 end
